@@ -1,0 +1,94 @@
+---
+title: "Untitled"
+output: html_document
+---
+# Prelim visuals
+```{r}
+sp <- ggplot(movie_db_sub2) + 
+  geom_point(aes(x = ln_budget, 
+                 y = ln_gross_box_office,
+                 col = b_rating)) +
+  xlab("ln_budget") + 
+  ylab("ln_gross_box_office") +
+  scale_color_gradient(high = "#F8AFA8", low ="#89c6f0") +
+  theme_light()
+print(sp)
+# This will save a 400x400 file at 100 ppi
+ggsave("sp.png", dpi=100)   
+
+
+
+bp <- ggplot(movie_db_sub2) +
+  geom_boxplot(aes(x = b_rating, 
+                   y = ln_gross_box_office, 
+                   group = b_rating,
+                   color = "#F8AFA8")) +
+  xlab("Bechdel Rating") + 
+  ylab("ln_gross_box_office") +
+  theme_light()
+print(bp)
+
+ggsave("bp.png", dpi=100) 
+
+
+```
+
+#Stacked bar of year v year
+```{r}
+stopifnot(require(ggplot2))
+stopifnot(require(RColorBrewer))
+
+#create barplot of bechdel pass vs time to do time periods
+s <- ggplot(movie_db_sub2, 
+            aes(x = b_year, 
+                y = b_pass,
+                fill = genre_1))
+s + geom_bar(stat = "identity") +
+  xlab("Years") +
+  ylab("Bechdel Pass") +
+  theme_light()
+```
+
+#Genre Count
+```{r}
+#create barplot of bechdel pass vs time 
+plot <- ggplot(movie_db_sub2, 
+            aes(x = reorder(genre_1, b_pass),
+                y = b_pass,
+                fill = genre_1))
+  
+            
+plot + geom_bar(stat = "identity") +
+  xlab("Genre") +
+  ylab("Bechdel Pass") +
+  theme_light() +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))
+
+plot <- ggplot(movie_db_sub2, 
+            aes(x = genre_1, 
+                y = b_pass,
+                fill = genre_1))
+
+# saves a 400x400 file at 100 ppi
+ggsave("plot.png", width=4, height=4, dpi=100)        
+
+```
+
+
+# Count of Bechdel Test Passed through years
+```{r}
+b <- ggplot(movie_db_sub2, 
+            aes(x = b_year, 
+                y = b_pass,
+                fill = b_pass))
+
+b + geom_bar(stat = "identity") +
+  xlab("Years") +
+  ylab("Bechdel Pass") +
+  scale_fill_gradient(low = "#F8AFA8", high = "#F8AFA8") +
+  theme_light()
+
+ggsave("b.png")
+
+```
+
